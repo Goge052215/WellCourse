@@ -1,0 +1,71 @@
+spring:
+  datasource:
+    username: root
+    password: Lg123456
+    url: jdbc:mysql://sh-cynosdbmysql-grp-5dm6we56.sql.tencentcdb.com:24026/schoolforum?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    validationQuery: select 1 from dual
+    testOnBorrow: true
+    testWhileIdle: true
+  elasticsearch:
+    rest:
+      uris: 110.40.156.29:9200
+  mail:
+    # 配置 SMTP 服务器地址
+    host: smtp.qq.com
+    # 发送者邮箱，已开通POP3/SMTP服务的邮箱，也就是你自己的
+    username: xxxxx@xx.com #发送者邮箱，已开通POP3/SMTP服务的邮箱，也就是你自己的
+    # 配置密码，注意不是真正的密码，而是刚刚申请到的授权码
+    password: xxxxxx #申请到的授权码
+    # 邮件接收者
+    mailRecipient: xxxxxx@xx.com #邮件接收者邮箱
+    # 端口号465或587（QQ邮箱发送邮件仅支持587端口协议）
+    port: 587
+    # 默认的邮件编码为UTF-8
+    default-encoding: UTF-8
+    # 配置SSL 加密工厂
+    properties:
+      mail:
+        smtp:
+          socketFactoryClass: javax.net.ssl.SSLSocketFactory
+        #表示开启 DEBUG 模式，这样，邮件发送过程的日志会在控制台打印出来，方便排查错误
+        debug: true
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
+  redis:
+    host: 110.40.166.29
+    port: 6379
+    database: 0
+    timeout: 1800000
+    password: school123456
+    lettuce:
+      pool:
+        max-active: 20
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+# mybatis-plus配置
+mybatis-plus:
+  # xml文件位置
+  mapper-locations: classpath:mapper/*.xml
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImp  l
+
+logging:
+  level:
+    root: debug
+  file:
+    path: F:\\logs
+aliyun:
+  oss:
+    aliyun:
+      oss:
+        endpoint: oss-cn-beijing.aliyuncs.com   # 坐标地区示例：oss-cn-beijing.aliyuncs.com
+        accessKeyId: ----------  # 注册用户的keyID
+        accessKeySecret: ----------   # 注册用户的密钥
+        bucketName: schoolforum   # 桶名称 示例：pictured-st
+        key: schoolforum/     # 存储根路径，例如：img/，以目录形式为结尾，之后图片会自动生成并添加到后缀

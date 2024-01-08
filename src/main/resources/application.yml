@@ -1,0 +1,7 @@
+#端口号8080
+server:
+  port: 8080
+# 激活指定使用哪个环境配置文件
+spring:
+  profiles:
+    active: dev
