@@ -12,16 +12,16 @@ import java.util.List;
 public class MpGenerator {
 
     private static final String projectPath = System.getProperty("user.dir");//获取项目路径 C:\workspace\springboot-demo
-    private static final String url = "jdbc:mysql://sh-cynosdbmysql-grp-5dm6we56.sql.tencentcdb.com:24026/schoolforum?userSSL=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";//jdbc url
+    private static final String url = "jdbc:mysql://111.231.172.99:3306/schoolforum?userSSL=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";//jdbc url
     private static final String username = "root";//数据库账号
-    private static final String password = "Lg123456";//数据库密码
+    private static final String password = "schoolABC_123";//数据库密码
     private static final String parentPackageName = "com.opensource.schoolforum";// 设置父包名
     private static final String moduleName = "";// 设置父包模块名
     private static final String writer = "";// 设置作者
     private static final String outPath = projectPath + "\\src\\main\\java\\";//输出路径
     private static final String mapperPath = projectPath + "\\src\\main\\resources\\mapper\\";// 设置mapperXml 模板路径
     //private static List<String> tableNames = Arrays.asList("user","post","likecollection","comment","mailconfiguration","email","school","discipline","plug");//需要生成的表名
-    private static List<String> tableNames = Arrays.asList("message");//需要生成的表名
+    private static List<String> tableNames = Arrays.asList("sensitive");//需要生成的表名
 
 
     public static void main(String[] args) {

@@ -1,22 +1,22 @@
 spring:
   datasource:
     username: root
-    password: Lg123456
-    url: jdbc:mysql://sh-cynosdbmysql-grp-5dm6we56.sql.tencentcdb.com:24026/schoolforum?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    password: schoolABC_123
+    url: jdbc:mysql://111.231.172.99:3306/schoolforum?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
     validationQuery: select 1 from dual
     testOnBorrow: true
     testWhileIdle: true
   elasticsearch:
     rest:
-      uris: 110.40.156.29:9200
+      uris: 110.40.166.29:9200
   mail:
     # 配置 SMTP 服务器地址
     host: smtp.qq.com
     # 发送者邮箱，已开通POP3/SMTP服务的邮箱，也就是你自己的
-    username: wellcourseteam@qq.com #发送者邮箱，已开通POP3/SMTP服务的邮箱，也就是你自己的
+    username: 1018554215@qq.com #发送者邮箱，已开通POP3/SMTP服务的邮箱，也就是你自己的
     # 配置密码，注意不是真正的密码，而是刚刚申请到的授权码
-    password: curxdxixokcvbbag #申请到的授权码
+    password: qptdeclxzsjubedj #申请到的授权码
     # 邮件接收者
     mailRecipient: wellcourse@163.com #邮件接收者邮箱
     # 端口号465或587（QQ邮箱发送邮件仅支持587端口协议）

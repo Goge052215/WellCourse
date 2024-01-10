@@ -18,6 +18,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.SearchHit;
@@ -67,6 +69,10 @@ public class CommentController {
     @Autowired
     private PostService postService;
 
+
+    @Autowired
+    private RedissonClient redissonClient;
+
     @PostMapping("addComment")
     @ApiOperation("添加评论")
     @LoginToken
@@ -102,7 +108,16 @@ public class CommentController {
             messageService.save(message);
         }
         //同步es
-        updateSum(1,addCommentReq.getPostId());
+        RLock lock = redissonClient.getLock("comment"+String.valueOf(addCommentReq.getPostId()));
+        try {
+            lock.lock();
+            updateSum(1,addCommentReq.getPostId());
+        }catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        } finally {
+            // 释放锁
+            lock.unlock();
+        }
         LocalDateTime date =  LocalDateTime.now();
         comment.setCreateTime(date);
         comment.setUpdateTime(date);
@@ -124,7 +139,16 @@ public class CommentController {
         }
         commentService.removeById(delCommentReq.getCommentId());
         //同步es
-        updateSum(2,comment.getParentid());
+        RLock lock = redissonClient.getLock("comment"+String.valueOf(comment.getParentid()));
+        try {
+            lock.lock();
+            updateSum(2,comment.getParentid());
+        }catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        } finally {
+            // 释放锁
+            lock.unlock();
+        }
         return R.success();
     }
     /**

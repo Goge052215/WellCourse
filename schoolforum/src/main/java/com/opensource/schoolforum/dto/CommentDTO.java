@@ -28,6 +28,9 @@ public class CommentDTO implements Serializable {
     @ApiModelProperty("评论内容")
     private String content;
 
+    @ApiModelProperty("头像")
+    private String headsculpture;
+
     @ApiModelProperty("回复评论的ID，如果为0，则表示该评论是一级评论")
     private Long parentid;
 

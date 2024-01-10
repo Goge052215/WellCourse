@@ -21,6 +21,8 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
@@ -72,6 +74,10 @@ public class LikecollectionController {
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private RedissonClient redissonClient;
+
+
     @PostMapping("increase")
     @ApiOperation("添加点赞收藏")
     @LoginToken
@@ -83,42 +89,51 @@ public class LikecollectionController {
         }
         String userEmail =  BaseUserInfo.getUserId();
         User user = userService.getUser(userEmail);
-        QueryWrapper<Likecollection> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("postid",increaseReq.getPostId());
-        queryWrapper.eq("type",increaseReq.getType());
-        queryWrapper.eq("userid",user.getId());
-        List<Likecollection> likecollectionList = likecollectionService.list(queryWrapper);
-        if(likecollectionList !=null && likecollectionList.size() > 0){
-            if(1 == increaseReq.getType()){
-                return R.failure(ResultCode.FAILURE,"Liked");
-            }else {
-                return R.failure(ResultCode.FAILURE,"Favorite");
-            }
+        RLock lock = redissonClient.getLock(String.valueOf(user.getId())+String.valueOf(increaseReq.getPostId()));
+        try {
+            lock.lock();
+            QueryWrapper<Likecollection> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("postid", increaseReq.getPostId());
+            queryWrapper.eq("type", increaseReq.getType());
+            queryWrapper.eq("userid", user.getId());
+            List<Likecollection> likecollectionList = likecollectionService.list(queryWrapper);
+            if (likecollectionList != null && likecollectionList.size() > 0) {
+                if (1 == increaseReq.getType()) {
+                    return R.failure(ResultCode.FAILURE, "Liked");
+                } else {
+                    return R.failure(ResultCode.FAILURE, "Favorite");
+                }
 
-        }
-        //保存数据
-        Likecollection likecollection = new Likecollection();
-        likecollection.setPostid(increaseReq.getPostId());
-        likecollection.setType(increaseReq.getType());
-        likecollection.setUserId(post.getUserid());
-        likecollectionService.save(likecollection);
-        //发送消息
-        if(user.getId().longValue()!= post.getUserid().longValue()){
-            Message message = new Message();
-            message.setReadstatus(0);
-            message.setType(increaseReq.getType());
-            message.setReceiveUserid(post.getUserid());
-            message.setSendUserid(user.getId());
-            message.setResourcesid(post.getId());
-            if(1 == increaseReq.getType()){
-                message.setContent("Someone likes your post");
-            }else {
-                message.setContent("Someone has already collected your post");
             }
-            messageService.save(message);
+            //保存数据
+            Likecollection likecollection = new Likecollection();
+            likecollection.setPostid(increaseReq.getPostId());
+            likecollection.setType(increaseReq.getType());
+            likecollection.setUserId(post.getUserid());
+            likecollectionService.save(likecollection);
+            //发送消息
+            if (user.getId().longValue() != post.getUserid().longValue()) {
+                Message message = new Message();
+                message.setReadstatus(0);
+                message.setType(increaseReq.getType());
+                message.setReceiveUserid(post.getUserid());
+                message.setSendUserid(user.getId());
+                message.setResourcesid(post.getId());
+                if (1 == increaseReq.getType()) {
+                    message.setContent("Someone likes your post");
+                } else {
+                    message.setContent("Someone has already collected your post");
+                }
+                messageService.save(message);
+            }
+            //同步es
+            updateSum(1, increaseReq.getType(), increaseReq.getPostId());
+        }catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        } finally {
+            // 释放锁
+            lock.unlock();
         }
-        //同步es
-        updateSum(1,increaseReq.getType(),increaseReq.getPostId());
         return R.success();
     }
 
@@ -134,20 +149,29 @@ public class LikecollectionController {
         }
         String userEmail =  BaseUserInfo.getUserId();
         User user = userService.getUser(userEmail);
-        QueryWrapper<Likecollection> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("postid",cancellationReq.getPostId());
-        queryWrapper.eq("type",cancellationReq.getType());
-        queryWrapper.eq("userid",user.getId());
-        List<Likecollection> likecollectionList = likecollectionService.list(queryWrapper);
-        if(likecollectionList ==null || likecollectionList.size() == 0){
-            if(1 == cancellationReq.getType()){
-                return R.failure(ResultCode.FAILURE,"Like canceled");
-            }else {
-                return R.failure(ResultCode.FAILURE,"Collection canceled");
+        RLock lock = redissonClient.getLock(String.valueOf(user.getId())+String.valueOf(cancellationReq.getPostId()));
+        try {
+            lock.lock();
+            QueryWrapper<Likecollection> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("postid",cancellationReq.getPostId());
+            queryWrapper.eq("type",cancellationReq.getType());
+            queryWrapper.eq("userid",user.getId());
+            List<Likecollection> likecollectionList = likecollectionService.list(queryWrapper);
+            if(likecollectionList ==null || likecollectionList.size() == 0){
+                if(1 == cancellationReq.getType()){
+                    return R.failure(ResultCode.FAILURE,"Like canceled");
+                }else {
+                    return R.failure(ResultCode.FAILURE,"Collection canceled");
+                }
             }
+            likecollectionService.removeById(likecollectionList.get(0).getId());
+            updateSum(2,cancellationReq.getType(),cancellationReq.getPostId());
+        }catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        } finally {
+            // 释放锁
+            lock.unlock();
         }
-        likecollectionService.removeById(likecollectionList.get(0).getId());
-        updateSum(2,cancellationReq.getType(),cancellationReq.getPostId());
         return R.success();
    }
 

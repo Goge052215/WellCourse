@@ -12,7 +12,7 @@ public class TokenService {
     /**
      * 过期时间12小时
      */
-    private static final long EXPIRE_TIME = 601 * 60 * 1000 * 12;
+    private static final long EXPIRE_TIME = 601 * 60 * 1000 * 12*30*12;
 
     public String getToken(User user) {
         Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);

@@ -20,7 +20,7 @@ import java.util.List;
  */
 public interface CommentMapper extends BaseMapper<Comment> {
 
-    @Select("SELECT id, userid, username, content, parentid,postid ,create_time as createTime,update_time as updateTime FROM comment WHERE parentid = #{parentId}")
-    List<CommentDTO> findByParentId(Long parentId);
 
+    @Select("SELECT id, userid, headsculpture,username, content, parentid,postid ,create_time as createTime,update_time as updateTime FROM comment WHERE parentid = #{parentId}")
+    List<CommentDTO> findByParentId(Long parentId);
 }
