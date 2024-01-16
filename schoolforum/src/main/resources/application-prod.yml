@@ -73,8 +73,8 @@ aliyun:
   oss:
     endpoint: oss-cn-beijing.aliyuncs.com   # 坐标地区示例：oss-cn-beijing.aliyuncs.com
 <<<<<<< HEAD
-    accessKeyId: LTAI5tByayajg8LBCwqD51qi  # 注册用户的keyID
-    accessKeySecret: 24Y0cVETjH8bkAJkSrQ7wgCMYOfdI7   # 注册用户的密钥
+    accessKeyId: ---------------------  # 注册用户的keyID
+    accessKeySecret: ---------------------   # 注册用户的密钥
 =======
     accessKeyId: ----------  # 注册用户的keyID
     accessKeySecret: ----------   # 注册用户的密钥
