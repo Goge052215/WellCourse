@@ -14,11 +14,19 @@ spring:
     # 配置 SMTP 服务器地址
     host: smtp.qq.com
     # 发送者邮箱，已开通POP3/SMTP服务的邮箱，也就是你自己的
+<<<<<<< HEAD
     username: wellcourseteam@qq.com #发送者邮箱，已开通POP3/SMTP服务的邮箱，也就是你自己的
     # 配置密码，注意不是真正的密码，而是刚刚申请到的授权码
     password: curxdxixokcvbbag #申请到的授权码
     # 邮件接收者
     mailRecipient: wellcourse@163.com #邮件接收者邮箱
+=======
+    username: xxxxx@xx.com #发送者邮箱，已开通POP3/SMTP服务的邮箱，也就是你自己的
+    # 配置密码，注意不是真正的密码，而是刚刚申请到的授权码
+    password: xxxxxx #申请到的授权码
+    # 邮件接收者
+    mailRecipient: xxxxxx@xx.com #邮件接收者邮箱
+>>>>>>> 419bd2da508d3c6cb6b3a0989d6ddb29813cb898
     # 端口号465或587（QQ邮箱发送邮件仅支持587端口协议）
     port: 587
     # 默认的邮件编码为UTF-8
@@ -62,8 +70,18 @@ logging:
     path: F:\\logs
 aliyun:
   oss:
+<<<<<<< HEAD
     endpoint: oss-cn-beijing.aliyuncs.com   # 坐标地区示例：oss-cn-beijing.aliyuncs.com
     accessKeyId: LTAI5tByayajg8LBCwqD51qi  # 注册用户的keyID
     accessKeySecret: 24Y0cVETjH8bkAJkSrQ7wgCMYOfdI7   # 注册用户的密钥
     bucketName: schoolforum   # 桶名称 示例：pictured-st
     key: schoolforum/     # 存储根路径，例如：img/，以目录形式为结尾，之后图片会自动生成并添加到后缀
+=======
+    aliyun:
+      oss:
+        endpoint: oss-cn-beijing.aliyuncs.com   # 坐标地区示例：oss-cn-beijing.aliyuncs.com
+        accessKeyId: ----------  # 注册用户的keyID
+        accessKeySecret: ----------   # 注册用户的密钥
+        bucketName: schoolforum   # 桶名称 示例：pictured-st
+        key: schoolforum/     # 存储根路径，例如：img/，以目录形式为结尾，之后图片会自动生成并添加到后缀
+>>>>>>> 419bd2da508d3c6cb6b3a0989d6ddb29813cb898
