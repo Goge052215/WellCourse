@@ -15,11 +15,11 @@ spring:
     host: smtp.qq.com
     # 发送者邮箱，已开通POP3/SMTP服务的邮箱，也就是你自己的
 <<<<<<< HEAD
-    username: wellcourseteam@qq.com #发送者邮箱，已开通POP3/SMTP服务的邮箱，也就是你自己的
+    username: xxxxxxxxxxx@xx.com #发送者邮箱，已开通POP3/SMTP服务的邮箱，也就是你自己的
     # 配置密码，注意不是真正的密码，而是刚刚申请到的授权码
-    password: curxdxixokcvbbag #申请到的授权码
+    password: xxxxxxxxxxxxx #申请到的授权码
     # 邮件接收者
-    mailRecipient: wellcourse@163.com #邮件接收者邮箱
+    mailRecipient: xxxxxxxxxxx@xx.com #邮件接收者邮箱
 =======
     username: xxxxx@xx.com #发送者邮箱，已开通POP3/SMTP服务的邮箱，也就是你自己的
     # 配置密码，注意不是真正的密码，而是刚刚申请到的授权码
@@ -72,8 +72,8 @@ aliyun:
   oss:
 <<<<<<< HEAD
     endpoint: oss-cn-beijing.aliyuncs.com   # 坐标地区示例：oss-cn-beijing.aliyuncs.com
-    accessKeyId: LTAI5tByayajg8LBCwqD51qi  # 注册用户的keyID
-    accessKeySecret: 24Y0cVETjH8bkAJkSrQ7wgCMYOfdI7   # 注册用户的密钥
+    accessKeyId: ---------------------  # 注册用户的keyID
+    accessKeySecret: ---------------------   # 注册用户的密钥
     bucketName: schoolforum   # 桶名称 示例：pictured-st
     key: schoolforum/     # 存储根路径，例如：img/，以目录形式为结尾，之后图片会自动生成并添加到后缀
 =======
