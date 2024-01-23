@@ -17,7 +17,7 @@ Here is the link that is directed to the website: <https://wellcourse.cn>
 **Note: You have to register first before start using it**
 
 ## Plugins:
-*While there are several plugins in the website, not all subjects have their exclusive plugin.*
+*While there are several plugins on the website, not all subjects have their exclusive plugin.*
 
 The list below shows the plugins and their related subjects:
 
@@ -33,10 +33,10 @@ A whole set of PhET sims (Physics), gPubChem Drawer
 ### Computer Science:
 CodeMirror 6
 
-For other subject, we will try our best to discover their suitable plugins and tools!
+For other subjects, we will try our best to discover their suitable plugins and tools!
 
 ## Source:
-For some of the plugins, here are the link straightforward to their website:
+For some of the plugins, here are the links straightforward to their website:
 
 Geogebra6: <https://www.geogebra.org/calculator>
 
@@ -44,5 +44,4 @@ PhET simulation: <https://phet.colorado.edu>
 
 PubChem drawer: <https://pubchem.ncbi.nlm.nih.gov/edit3/index.html>
 
-That's all, hope you enjoy!
-
+That's all, hope you enjoy it!
